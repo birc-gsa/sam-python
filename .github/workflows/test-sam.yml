@@ -1,0 +1,18 @@
+name: Test tosam tool
+
+on: [push]
+
+jobs:
+  testing:
+    name: Test tosam tool
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out repository
+        uses: actions/checkout@v2
+
+      - name: Building project
+        uses: ./.github/actions/build
+
+      - name: Running test
+        run:  ./test-tosam.sh
+        shell: bash

@@ -74,16 +74,21 @@ diff right.sam wrong-order.sam
 
 This tells me that there are three lines in each file that does not appear in the other, and if I examine the files I can see that the information is there but that the third and fourth columns are swapped. The position should go before the CIGAR, so I have to fix that.
 
-It is harder to figure out with invisible characters like space and tab:
+It is harder to figure out with invisible characters, since a sequence of space can look a lot like a tab, but this is where `tr` comes in handy. It will replace one character with another, given a sequence of "from" and "to" characters, so you can use it to give tabs one visual appearance and spaces another:
 
 ```sh
-diff right.sam space.sam
+diff right.sam space.sam | tr " \t" ".‣"
 1,3c1,3
-< read1	chr1	2	3M	iss
-< read2	chr2	12	3M	mis
-< read4	chr2	17	6M	ssippi
+<.read1‣chr1‣2‣3M‣iss
+<.read2‣chr2‣12‣3M‣mis
+<.read4‣chr2‣17‣6M‣ssippi
 ---
-> read1 chr1    2   3M  iss
-> read2 chr2    12  3M  mis
-> read4 chr2    17  6M  ssippi
+>.read1.chr1....2.......3M......iss
+>.read2.chr2....12......3M......mis
+>.read4.chr2....17......6M......ssippi
 ```
+
+(the first space on each line, '.', is not an error in the SAM file but `diff` adding a space that `tr` changes; you could run `tr` first and avoid that, but I'm smart enough not to get bothered by it).
+
+I have provided you with a template program, `tosam`, and you just need to output the data you get in Simple-SAM format. After that, expect you to get it right in the coming projects. If not, I will weep for humanity, and you don't want that, do you?
+
