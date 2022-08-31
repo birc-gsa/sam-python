@@ -2,7 +2,7 @@
 
 success=1
 for f in test-data/*.mas; do
-    if ! cmp -s <(./tosam $f) `basename $f .mas`.sam; then
+    if ! cmp -s <(./tosam $f) test-data/`basename $f .mas`.sam; then
         echo "./tosam $f did not produce the expected output"
         success=0
     fi
